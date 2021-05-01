@@ -20,13 +20,14 @@ namespace Scraper.Core.Abstractions.Workers
         protected readonly IUrlScraper _scraper;
         protected readonly ScraperSettings _settings;
 
-        public string WorkerName { get; init; } = "Worker";
+        public string WorkerName { get; init; }
 
         public ScraperWorker(ILogger<ScraperWorker> logger, IUrlScraper scraper, ScraperSettings settings)
         {
             _logger = logger;
             _scraper = scraper;
             _settings = settings;
+            WorkerName = nameof(ScraperWorker);
         }
 
         public override async Task StartAsync(CancellationToken cancellationToken)
@@ -45,14 +46,26 @@ namespace Scraper.Core.Abstractions.Workers
         {
             while (!cancellationToken.IsCancellationRequested)
             {
-                await Work();
+                ScrapingResult result = await Work();
                 await Task.Delay(_settings.ScrapingInterval, cancellationToken);
             }
         }
 
-        protected virtual async Task Work()
+        protected virtual async Task<ScrapingResult> Work()
         {
-            await _scraper.TryScrape(_settings.Url);
+            ScrapingResult result = await _scraper.TryScrape(_settings.Url);
+            if (result is FailedScrapingResult fail)
+                _logger.LogWarning(WorkerName + " failed scraping at {date}. Error message: {message}",
+                    fail.ScrapeDate,
+                    fail.ErrorMessage);
+            else
+                _logger.LogInformation(WorkerName + ": successful scrape at {date}", result.ScrapeDate);
+            return result;
+        }
+
+        protected virtual async Task NotifyClients()
+        {
+            await Task.CompletedTask;
         }
     }
 }

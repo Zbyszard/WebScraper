@@ -23,7 +23,6 @@ namespace Scraper.Core.Services
         public async Task<HttpResponseMessage> Get(string url)
         {
             return await _http.GetAsync(url);
-             await _context.OpenAsync(url);
         }
     }
 }

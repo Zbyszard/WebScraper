@@ -13,12 +13,12 @@ using System.Threading.Tasks;
 
 namespace Scraper.Core.Abstractions.Controllers
 {
-    public abstract class UrlScraperBase : IUrlScraper
+    public class UrlScraper : IUrlScraper
     {
         private readonly IRequestService _requestService;
         private readonly IDomScraper _domScraper;
 
-        public UrlScraperBase(IRequestService requestService, IDomScraper domScraper)
+        public UrlScraper(IRequestService requestService, IDomScraper domScraper)
         {
             _requestService = requestService;
             _domScraper = domScraper;
@@ -27,13 +27,7 @@ namespace Scraper.Core.Abstractions.Controllers
         public virtual async Task<ScrapingResult> TryScrape(string url)
         {
             HttpResponseMessage response = await _requestService.Get(url);
-
-            int status = (int) response.StatusCode;
-            if (status >= 200 && status < 300)
-                return new FailedScrapingResult(status) { ErrorMessage = $"Http request returned status { status }" };
-
-            string responseContent = await response.Content.ReadAsStringAsync();
-            return await _domScraper.TryGetNewValue(responseContent);
+            return await _domScraper.TryGetNewValue(response);
         }
     }
 }

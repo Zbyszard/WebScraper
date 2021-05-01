@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace Scraper.Core.Configuration
 {
-    public struct ScraperSettings
+    public class ScraperSettings
     {
+        public const string SettingName = "Scraping";
         public int ScrapingInterval { get; set; }
         public string Url { get; set; }
     }

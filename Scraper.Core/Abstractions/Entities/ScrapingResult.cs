@@ -12,7 +12,7 @@ namespace Scraper.Core.Abstractions.Entities
         {
             ScrapeDate = DateTimeOffset.UtcNow;
         }
-        public DateTimeOffset ScrapeDate { get; set; }
+        public DateTimeOffset ScrapeDate { get; }
         public int HttpStatusCode { get; set; }
     }
 }

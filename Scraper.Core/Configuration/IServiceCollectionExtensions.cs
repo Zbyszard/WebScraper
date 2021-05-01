@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Scraper.Core.Abstractions.Controllers;
+using Scraper.Core.Interfaces.Controllers;
 using Scraper.Core.Interfaces.Requests;
 using Scraper.Core.Services;
 using System;
@@ -15,9 +17,10 @@ namespace Scraper.Core.Configuration
         public static IServiceCollection AddDefaultScraperConfiguration(this IServiceCollection services)
         {
             services.AddSingleton(ScraperDefaults.Configuration);
+            services.AddSingleton(ScraperDefaults.Context);
             services.AddSingleton(new HttpClient());
-
-            services.AddScoped<IRequestService, RequestService>();
+            services.AddSingleton<IUrlScraper, UrlScraper>();
+            services.AddSingleton<IRequestService, RequestService>();
 
             return services;
         }
