@@ -1,8 +1,5 @@
-﻿using Scraper.Core.Abstractions.Entities;
-using Scraper.Core.Entities;
-using Scraper.Core.Interfaces.Controllers;
-using Scraper.Core.Interfaces.Requests;
-using Scraper.Core.Interfaces.Scraping;
+﻿using Scraper.Core.Entities;
+using Scraper.Core.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +8,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Scraper.Core.Abstractions.Controllers
+namespace Scraper.Base.Services
 {
     public class UrlScraper : IUrlScraper
     {

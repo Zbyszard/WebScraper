@@ -5,15 +5,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Scraper.Core.Abstractions.Entities;
 using Scraper.Core.Configuration;
 using Scraper.Core.Entities;
-using Scraper.Core.Interfaces.Controllers;
-using Scraper.Core.Interfaces.Scraping;
+using Scraper.Core.Services;
 
-namespace Scraper.Core.Abstractions.Workers
+namespace Scraper.Base
 {
-    //public abstract class ScraperWorkerBase<T> : BackgroundService where T : BackgroundService
     public abstract class ScraperWorker : BackgroundService
     {
         protected readonly ILogger<ScraperWorker> _logger;
@@ -53,7 +50,7 @@ namespace Scraper.Core.Abstractions.Workers
 
         protected virtual async Task<ScrapingResult> Work()
         {
-            ScrapingResult result = await _scraper.TryScrape(_settings.Url);
+            ScrapingResult result = await _scraper.TryScrape(_settings.MainPage);
             if (result is FailedScrapingResult fail)
                 _logger.LogWarning(WorkerName + " failed scraping at {date}. Error message: {message}",
                     fail.ScrapeDate,
@@ -63,7 +60,7 @@ namespace Scraper.Core.Abstractions.Workers
             return result;
         }
 
-        protected virtual async Task NotifyClients()
+        protected virtual async Task NotifyClients(ScrapingResult result)
         {
             await Task.CompletedTask;
         }

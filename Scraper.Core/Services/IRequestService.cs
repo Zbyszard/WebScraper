@@ -1,7 +1,7 @@
 ﻿using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace Scraper.Core.Interfaces.Requests
+namespace Scraper.Core.Services
 {
     public interface IRequestService
     {

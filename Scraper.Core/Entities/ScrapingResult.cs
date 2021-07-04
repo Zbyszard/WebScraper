@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Scraper.Core.Abstractions.Entities
+namespace Scraper.Core.Entities
 {
     public abstract class ScrapingResult
     {

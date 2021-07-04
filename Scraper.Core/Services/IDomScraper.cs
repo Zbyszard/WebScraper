@@ -1,5 +1,4 @@
-﻿using Scraper.Core.Abstractions.Entities;
-using Scraper.Core.Entities;
+﻿using Scraper.Core.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +6,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Scraper.Core.Interfaces.Scraping
+namespace Scraper.Core.Services
 {
     public interface IDomScraper
     {
@@ -15,9 +14,9 @@ namespace Scraper.Core.Interfaces.Scraping
         protected static bool CheckRequestStatus(HttpResponseMessage response, out FailedScrapingResult result, out int responseStatus)
         {
             responseStatus = (int)response.StatusCode;
-            if (responseStatus < 200 || responseStatus >= 300)
+            if (!response.IsSuccessStatusCode)
             {
-                result = new FailedScrapingResult(responseStatus) 
+                result = new FailedScrapingResult 
                 { 
                     HttpStatusCode = responseStatus,
                     ErrorMessage = $"HTTP request returned status { responseStatus }"
