@@ -1,4 +1,4 @@
-﻿using Scraper.Core.Entities;
+﻿using Scraper.Core.Entities.ScrapingResults;
 using Scraper.Core.Services;
 using System;
 using System.Collections.Generic;

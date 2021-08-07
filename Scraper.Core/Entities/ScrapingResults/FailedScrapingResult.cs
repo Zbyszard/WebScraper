@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Scraper.Core.Entities
+namespace Scraper.Core.Entities.ScrapingResults
 {
     public class FailedScrapingResult : ScrapingResult
     {
