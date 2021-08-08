@@ -10,21 +10,24 @@ using System.Threading.Tasks;
 
 namespace Scraper.Base.Services
 {
-    public class UrlScraper : IUrlScraper
+    public abstract class UrlScraper : IUrlScraper
     {
         private readonly IRequestService _requestService;
-        private readonly IDomScraper _domScraper;
+        private readonly IScraper _scraper;
 
-        public UrlScraper(IRequestService requestService, IDomScraper domScraper)
+        public UrlScraper(IRequestService requestService, IScraper scraper)
         {
             _requestService = requestService;
-            _domScraper = domScraper;
+            _scraper = scraper;
         }
 
         public virtual async Task<ScrapingResult> TryScrape(string url)
         {
             HttpResponseMessage response = await _requestService.Get(url);
-            return await _domScraper.TryGetNewValue(response);
+            return await _scraper.TryGetNewValue(response);
         }
+
+        public abstract Task<IEnumerable<string>> TryScrapeDetailUrls(string url);
+        public abstract Task<ScrapingResultList> TryScrapeMany(string url, string stopAtDetailUrl);
     }
 }

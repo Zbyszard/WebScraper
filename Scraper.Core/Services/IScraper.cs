@@ -8,9 +8,11 @@ using System.Threading.Tasks;
 
 namespace Scraper.Core.Services
 {
-    public interface IDomScraper
+    public interface IScraper
     {
+        Task<IEnumerable<string>> TryGetDetailStrings(HttpResponseMessage response);
         Task<ScrapingResult> TryGetNewValue(HttpResponseMessage response);
+        Task<ScrapingResultList> TryGetManyValues(HttpResponseMessage responseMessage);
         protected static bool CheckRequestStatus(HttpResponseMessage response, out FailedScrapingResult result, out int responseStatus)
         {
             responseStatus = (int)response.StatusCode;

@@ -11,6 +11,6 @@ namespace Scraper.Core.Configuration
         public const string SettingName = "Scraping";
         public int ScrapingInterval { get; set; }
         public string BaseUrl { get; set; }
-        public string ClientName { get; set; }
+        public string HttpClientName { get; set; }
     }
 }

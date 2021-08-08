@@ -15,8 +15,7 @@ namespace Scraper.Core.Services
 
         public RequestService(ScraperSettings settings, IHttpClientFactory httpClientFactory)
         {
-
-            _http = httpClientFactory.CreateClient(settings.ClientName);
+            _http = httpClientFactory.CreateClient(settings.HttpClientName);
         }
 
         public async Task<HttpResponseMessage> Get(string url)

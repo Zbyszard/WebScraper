@@ -16,6 +16,7 @@ namespace Scraper.Base
     {
         protected readonly ILogger<ScraperWorker> _logger;
         protected readonly IUrlScraper _scraper;
+        protected readonly IServiceToServerNotifier _notifier;
         protected readonly ScraperSettings _settings;
 
         public string WorkerName { get; init; }
@@ -31,13 +32,13 @@ namespace Scraper.Base
 
         public override async Task StartAsync(CancellationToken cancellationToken)
         {
-            _logger.LogInformation(WorkerName + " starting at: {time}", DateTimeOffset.Now);
+            _logger.LogInformation(WorkerName + " starting at: {time}", DateTimeOffset.UtcNow);
             await base.StartAsync(cancellationToken);
         }
 
         public override async Task StopAsync(CancellationToken cancellationToken)
         {
-            _logger.LogInformation(WorkerName + " stopping at: {time}", DateTimeOffset.Now);
+            _logger.LogInformation(WorkerName + " stopping at: {time}", DateTimeOffset.UtcNow);
             await base.StopAsync(cancellationToken);
         }
 
@@ -52,15 +53,13 @@ namespace Scraper.Base
 
         protected virtual async Task Work()
         {
-            var contextTaskPairs = ScrapingContexts.Select(c =>
+            foreach (var context in ScrapingContexts)
             {
-                return new { context = c, task = Task.Run(() => ScrapeContext(c))};
-            });
-            await Task.WhenAll(contextTaskPairs.Select(p => p.task));
-            foreach(var pair in contextTaskPairs)
-                pair.context.Results = pair.task.Result.Succesful;
+                var results = await ScrapeContext(context);
+                context.Results = results.Succesful;
+            }
 
-            await Task.WhenAll(ScrapingContexts.Select(c => NotifyClients(c)));
+            await Task.WhenAll(ScrapingContexts.Select(c => NotifyServer(c)));
         }
 
         protected virtual async Task<ScrapingResultList> ScrapeContext(ScrapingContext context)
@@ -85,7 +84,6 @@ namespace Scraper.Base
                     results.Date,
                     results.Failures.Count());
             LogFailures(results.Failures);
-
         }
 
         protected void LogFailures(IEnumerable<FailedScrapingResult> failures)
@@ -96,9 +94,9 @@ namespace Scraper.Base
                     f.ErrorMessage);
         }
         
-        protected virtual async Task NotifyClients(ScrapingContext conext)
+        protected virtual async Task NotifyServer(ScrapingContext context)
         {
-            await Task.CompletedTask;
+            await _notifier.NotifyServer(context);
         }
     }
 }
