@@ -14,8 +14,8 @@ namespace Scraper.Core.Entities.Communication
             Results = new List<ScrapingResult>();
         }
 
-        public int Id { get; init; }
-        public string Path { get; init; }
+        public int Id { get; set; }
+        public string Path { get; set; }
         public string LastScrapedUrl { get; set; }
         public IEnumerable<ScrapingResult> Results { get; set; }
     }
