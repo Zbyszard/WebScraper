@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Scraper.Core.Services
 {
-    public interface IServiceToServerNotifier
+    public interface IWorkerToServerNotifier
     {
         Task NotifyServer(ScrapingContext context);
     }

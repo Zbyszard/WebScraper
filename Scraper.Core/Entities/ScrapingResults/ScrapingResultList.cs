@@ -20,7 +20,7 @@ namespace Scraper.Core.Entities.ScrapingResults
                 .Where(r => r is not null);
         }
         public string ErrorMessage { get; set; }
-        public bool ErrorOccured { get; set; }
+        public bool ErrorOccured { get => !string.IsNullOrEmpty(ErrorMessage); }
         public DateTimeOffset Date { get; set; }
 
         public ScrapingResultList()

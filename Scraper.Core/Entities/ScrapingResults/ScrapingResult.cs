@@ -15,5 +15,6 @@ namespace Scraper.Core.Entities.ScrapingResults
         public DateTimeOffset ScrapeDate { get; }
         public int HttpStatusCode { get; set; }
         public string Path { get; set; }
+        public string BaseUrl { get; set; }
     }
 }

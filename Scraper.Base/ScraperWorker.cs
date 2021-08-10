@@ -16,17 +16,19 @@ namespace Scraper.Base
     {
         protected readonly ILogger<ScraperWorker> _logger;
         protected readonly IUrlScraper _scraper;
-        protected readonly IServiceToServerNotifier _notifier;
+        protected readonly IWorkerToServerNotifier _notifier;
         protected readonly ScraperSettings _settings;
 
         public string WorkerName { get; init; }
         public List<ScrapingContext> ScrapingContexts { get; private set; }
 
-        public ScraperWorker(ILogger<ScraperWorker> logger, IUrlScraper scraper, ScraperSettings settings)
+        public ScraperWorker(ILogger<ScraperWorker> logger, IUrlScraper scraper, ScraperSettings settings,
+            IWorkerToServerNotifier notifier)
         {
             _logger = logger;
             _scraper = scraper;
             _settings = settings;
+            _notifier = notifier;
             WorkerName = nameof(ScraperWorker);
         }
 
