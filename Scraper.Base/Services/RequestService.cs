@@ -1,25 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
-using Scraper.Core.Configuration;
+﻿using Scraper.Core.Configuration;
 using Scraper.Core.Services;
 
-namespace Scraper.Core.Services
+namespace Scraper.Base.Services;
+
+public class RequestService : IRequestService
 {
-    public class RequestService : IRequestService
+    private readonly HttpClient _http;
+
+    public RequestService(ScraperSettings settings, IHttpClientFactory httpClientFactory)
     {
-        private readonly HttpClient _http;
+        _http = httpClientFactory.CreateClient(settings.HttpClientName);
+    }
 
-        public RequestService(ScraperSettings settings, IHttpClientFactory httpClientFactory)
-        {
-            _http = httpClientFactory.CreateClient(settings.HttpClientName);
-        }
-
-        public async Task<HttpResponseMessage> Get(string url)
-        {
-            return await _http.GetAsync(url);
-        }
+    public async Task<HttpResponseMessage> Get(string url)
+    {
+        return await _http.GetAsync(url);
     }
 }

@@ -1,10 +1,6 @@
-﻿using System.Net.Http;
-using System.Threading.Tasks;
+﻿namespace Scraper.Core.Services;
 
-namespace Scraper.Core.Services
+public interface IRequestService
 {
-    public interface IRequestService
-    {
-        Task<HttpResponseMessage> Get(string url);
-    }
+    Task<HttpResponseMessage> Get(string url);
 }
