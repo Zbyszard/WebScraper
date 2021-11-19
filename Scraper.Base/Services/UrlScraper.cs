@@ -24,7 +24,9 @@ namespace Scraper.Base.Services
         public virtual async Task<ScrapingResult> TryScrape(string url)
         {
             HttpResponseMessage response = await _requestService.Get(url);
-            return await _scraper.TryGetNewValue(response);
+            var result = await _scraper.TryGetNewValue(response);
+            result.BaseUrl = url;
+            return result;
         }
 
         public abstract Task<IEnumerable<string>> TryScrapeDetailUrls(string url);

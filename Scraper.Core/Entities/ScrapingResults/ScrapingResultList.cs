@@ -2,12 +2,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Scraper.Core.Entities.ScrapingResults
 {
-    public class ScrapingResultList
+    public class ScrapingResultList : IEnumerable<ScrapingResult>
     {
         public IEnumerable<ScrapingResult> List { get; set; }
         public IEnumerable<ScrapingResult> Succesful 
@@ -21,6 +22,7 @@ namespace Scraper.Core.Entities.ScrapingResults
         }
         public string ErrorMessage { get; set; }
         public bool ErrorOccured { get => !string.IsNullOrEmpty(ErrorMessage); }
+        public HttpStatusCode Status { get; set; }
         public DateTimeOffset Date { get; set; }
 
         public ScrapingResultList()
@@ -28,5 +30,9 @@ namespace Scraper.Core.Entities.ScrapingResults
             List = new List<ScrapingResult>();
             Date = DateTimeOffset.UtcNow;
         }
+
+        public IEnumerator<ScrapingResult> GetEnumerator() => List.GetEnumerator();
+
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 }
