@@ -4,6 +4,7 @@ using Scraper.Core.Configuration;
 using Scraper.Core.Entities.ScrapingResults;
 using Scraper.Core.Services;
 using Scraper.Core.Entities.Communication;
+using Microsoft.Extensions.Options;
 
 namespace Scraper.Base;
 
@@ -17,12 +18,12 @@ public abstract class ScraperWorker : BackgroundService
     public string WorkerName { get; init; }
     public List<ScrapingContext> ScrapingContexts { get; private set; }
 
-    public ScraperWorker(ILogger<ScraperWorker> logger, IUrlScraper scraper, ScraperSettings settings,
+    public ScraperWorker(ILogger<ScraperWorker> logger, IUrlScraper scraper, IOptions<ScraperSettings> settings,
         IWorkerToServerNotifier notifier)
     {
         _logger = logger;
         _scraper = scraper;
-        _settings = settings;
+        _settings = settings.Value;
         _notifier = notifier;
         WorkerName = nameof(ScraperWorker);
     }

@@ -6,7 +6,7 @@ namespace Scraper.Core.Services;
 public interface IScraper
 {
     Task<IEnumerable<string>> TryGetDetailStrings(HttpResponseMessage response);
-    Task<ScrapingResult> TryGetNewValue(HttpResponseMessage response);
+    Task<ScrapingResult> TryGetSingleValue(HttpResponseMessage response);
     Task<ScrapingResultList> TryGetManyValues(HttpResponseMessage responseMessage);
     protected static bool CheckRequestStatus(HttpResponseMessage response, out FailedScrapingResult result, out HttpStatusCode responseStatus)
     {

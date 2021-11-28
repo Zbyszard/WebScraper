@@ -24,6 +24,7 @@ public class ScrapingResultList : IEnumerable<ScrapingResult>
     {
         List = new List<ScrapingResult>();
         Date = DateTimeOffset.UtcNow;
+        ErrorMessage = string.Empty;
     }
 
     public IEnumerator<ScrapingResult> GetEnumerator() => List.GetEnumerator();

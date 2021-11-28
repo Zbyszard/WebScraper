@@ -17,7 +17,7 @@ public abstract class UrlScraper : IUrlScraper
     public virtual async Task<ScrapingResult> TryScrape(string url)
     {
         HttpResponseMessage response = await _requestService.Get(url);
-        var result = await _scraper.TryGetNewValue(response);
+        var result = await _scraper.TryGetSingleValue(response);
         result.BaseUrl = url;
         return result;
     }
