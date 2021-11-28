@@ -5,8 +5,8 @@ namespace Scraper.Base.Services;
 
 public abstract class UrlScraper : IUrlScraper
 {
-    private readonly IRequestService _requestService;
-    private readonly IScraper _scraper;
+    protected readonly IRequestService _requestService;
+    protected readonly IScraper _scraper;
 
     public UrlScraper(IRequestService requestService, IScraper scraper)
     {

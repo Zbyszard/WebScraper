@@ -16,7 +16,7 @@ public abstract class ScraperWorker : BackgroundService
     protected readonly ScraperSettings _settings;
 
     public string WorkerName { get; init; }
-    public List<ScrapingContext> ScrapingContexts { get; private set; }
+    public List<ScrapingContext> ScrapingContexts { get; protected set; }
 
     public ScraperWorker(ILogger<ScraperWorker> logger, IUrlScraper scraper, IOptions<ScraperSettings> settings,
         IWorkerToServerNotifier notifier)
@@ -25,6 +25,7 @@ public abstract class ScraperWorker : BackgroundService
         _scraper = scraper;
         _settings = settings.Value;
         _notifier = notifier;
+        ScrapingContexts = new();
         WorkerName = nameof(ScraperWorker);
     }
 

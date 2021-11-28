@@ -1,5 +1,4 @@
-﻿using Scraper.Core.Configuration;
-using Scraper.Core.Services;
+﻿using Scraper.Core.Services;
 
 namespace Scraper.Base.Services;
 
@@ -7,9 +6,9 @@ public class RequestService : IRequestService
 {
     private readonly HttpClient _http;
 
-    public RequestService(ScraperSettings settings, IHttpClientFactory httpClientFactory)
+    public RequestService(HttpClient httpClient)
     {
-        _http = httpClientFactory.CreateClient(settings.HttpClientName);
+        _http = httpClient;
     }
 
     public async Task<HttpResponseMessage> Get(string url)
